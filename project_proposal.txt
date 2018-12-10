@@ -1,0 +1,13 @@
+Tic Tac Toe Proposal
+	My program would make a tic tac toe board, with a 9 member array for the squares. The program will read in moves, and 
+  show moves in real time. It should be able to identify if the user’s moves are legal (haven’t already been taken, 
+  denote an actual square). It also checks if the game is over, and if it’s over, whether X has won, O has won, or if it is a cat game.
+	The most challenging and interesting part of the project will be the design of the algorithm that dictates how the computer will 
+  respond to the user’s moves. The program should assess the moves that have been played, and take the move that most increases 
+  the likelihood that it will win the game, whether it is playing X’s or O’s. I will use a recursive function with a base case of 
+  terminal games (all spaces are filled) that explores the entire tree of possibilities that follow from each of its possible next moves. 
+  It will calculate all the possible outcomes by assigning a net value (the sum of all the terminal outcomes, where loss = -1, cat 
+  game = 0, and win = +1). It will then choose the next move whose tree includes the largest values for the tree of possibilities.
+	Figuring out how to design this algorithm so that it examines every possible outcome and allow comparison of different moves 
+  will be challenging. I’m not sure how I could design it to guarantee that it actually examines every possible branch on the tree 
+  of possibilities.
