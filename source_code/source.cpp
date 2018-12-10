@@ -3,7 +3,7 @@
 //Helpful source: https://www.geeksforgeeks.org/minimax-algorithm-in-game-theory-set-3-tic-tac-toe-ai-finding-optimal-move/
 
 #include <iostream>
-#include <vector>
+#include "Board.h"
 #include <cmath>
 #include <string>
 #include <cstdlib>
