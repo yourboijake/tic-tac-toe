@@ -191,10 +191,11 @@ int main(){
 
     Board b2;
     b2.changeSqr(1,'X');
+    b.switchPlayer();
     b2.changeSqr(4,'O');
+    b.switchPlayer();
     b2.changeSqr(7,'X');
-    cout << "game won returns " << boolalpha << b2.gameWon() << endl;
-    cout << "this position is scored as " << b2.evalPosition('0') << endl;
+    b.switchPlayer();
     b2.displayBoard();
     int best_move = findBestMove(b2)+1;
     cout << endl << "The best move in this position is " << best_move;
