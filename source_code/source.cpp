@@ -1,4 +1,3 @@
-
 //Jacob Dunning
 //Tic Tac Toe CS2 Project
 //Helpful source: https://www.geeksforgeeks.org/minimax-algorithm-in-game-theory-set-3-tic-tac-toe-ai-finding-optimal-move/
@@ -27,13 +26,13 @@ int moveScore(Board b, int score_count, bool isAI, int depth){
     int score = b.evalPosition(b.getMinimaxTurn());
     //base cases: win, loss, cat game
     if(depth>10000)
-        return 0;
+        return 0-(depth/2);
     else if(score==1)
-        return score;
+        return score-(depth/2);
     else if(score==-1)
         return score;
-    else if(score==0)
-        return score;
+    else if(b.spacesFilled())
+        return score-(depth/2);
     //recursive cases: if isAI, make AI move, if !isAI, make human move
     else if(isAI){
         for(int i=0;i<9;i++){
@@ -42,7 +41,7 @@ int moveScore(Board b, int score_count, bool isAI, int depth){
                 depth++;
                 score_count += moveScore(b, score_count, !isAI, depth);
                 b.changeSqr(i+1,i+'1');
-                b.displayBoard();
+                depth--;
             }
         }
         return score_count;
@@ -54,7 +53,7 @@ int moveScore(Board b, int score_count, bool isAI, int depth){
                 depth++;
                 score_count += moveScore(b, score_count, !isAI, depth);
                 b.changeSqr(i+1,i+'1');
-                b.displayBoard();
+                depth--;
             }
         }
         return score_count;
@@ -79,6 +78,7 @@ Move findBestMove(Board b){
 }
 
 int main(){
+    bool humans_turn;
     Board b, b2;
     char player;
     cout << "do you want to be X's or O's? Type 'X' or 'O':  ";
@@ -86,73 +86,54 @@ int main(){
     
     if(player=='X') {
         b.setAI('O');
-        b2.setAI('O');
+        humans_turn = true;
     }
-    else {
+    else{
         b.setAI('X');
-        b2.setAI('X');
+        humans_turn = false;
     }
+    bool legit_move = false;
+    int move;
+    Move AImove;
 
-    /*b2.changeSqr(1,'X');
-    b2.changeSqr(2,'X');
-    b2.changeSqr(3,'O');
-    b2.changeSqr(4,'O');
-    b2.changeSqr(5,'O');
-    b2.changeSqr(7,'X');
-    b2.changeSqr(8,'X');*/
-    b2.changeSqr(1,'X');
-    b2.changeSqr(5,'O');
-    b2.changeSqr(7,'X');
-    b2.displayBoard();
-    Move best = findBestMove(b2);
-    cout << endl << "The best move in this position for O is " << best.index_best+1 << endl;
 
-    /*do{
+    do{
         b.displayBoard();
-        if(b.getTurn()==player){
+        if(humans_turn){
             while(!legit_move){
                     cout << endl << "Enter a move: ";
                     cin >> move;
-                if(b.getSpace(move)==move)
+                if(!b.isLegal(move-1))
                     cout << "space already taken. ";
                 else
                     legit_move=true;
             }
-            b.changeSqr(move, b.getTurn());
+            b.changeSqr(move, b.getNotMinimaxTurn());
+            legit_move=false;
         }
-        legit_move=false;
-        Sleep(100);
-        system("cls");
-        b.displayBoard();
-
-        if(b.getTurn()!=player){
-            if(b.getDepth()>1){
-                AImove = findBestMove(b)+1;
-                b.changeSqr(AImove, b.getMinimaxTurn());
-            }
-            else if(b.getDepth()==0||b.getSpace(4)!='5'){ //if first move or if opponent plays in the center, play corner
-                b.changeSqr(1,b.getMinimaxTurn());
-            }
-            else if(b.getSpace(0)!='0'||b.getSpace(2)!='2'||b.getSpace(6)!='6'||b.getSpace(8)!='8'){ //if corner, play center
-                b.changeSqr(5, b.getMinimaxTurn());
-            }
-            else{
-                b.changeSqr(5, b.getMinimaxTurn()); //else play center
-            }
+        
+        if(!humans_turn){
+            AImove = findBestMove(b);
+            b.changeSqr(AImove.index_best, b.getMinimaxTurn());
         }
-        b.incrementDepth();
-        b.switchPlayer();
-        Sleep(100);
+        Sleep(500);
         system("cls");
+        if(humans_turn)
+            humans_turn=false;
+        else
+            humans_turn=true;
     }while(!b.gameWon()&&!b.spacesFilled());
     
     b.displayBoard();
     cout << endl;
+    int score = b.evalPosition(player);
 
-    if(b.getWinner()=='C')
+    if(score == 0)
         cout << "Cat game!";
+    else if(score == -1)
+        cout << "The winner is me!" << endl;
     else
-        cout << "The winner is " << b.getTurn() << endl;*/
+        cout << "Congratulations, you beat me :(" << endl;
     
     ofstream fout;
     fout.open("final_result.txt");
