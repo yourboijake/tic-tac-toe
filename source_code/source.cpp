@@ -115,7 +115,7 @@ int main(){
         
         if(!humans_turn){
             AImove = findBestMove(b);
-            b.changeSqr(AImove.index_best, b.getMinimaxTurn());
+            b.changeSqr(AImove.index_best+1, b.getMinimaxTurn());
         }
         Sleep(500);
         system("cls");
