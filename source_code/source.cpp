@@ -1,3 +1,4 @@
+
 //Jacob Dunning
 //Tic Tac Toe CS2 Project
 //Helpful source: https://www.geeksforgeeks.org/minimax-algorithm-in-game-theory-set-3-tic-tac-toe-ai-finding-optimal-move/
@@ -24,14 +25,16 @@ struct Move{
 
 int moveScore(Board b, int score_count, bool isAI, int depth){
     int score = b.evalPosition(b.getMinimaxTurn());
+    //base cases: win, loss, cat game
     if(depth>10000)
         return 0;
     else if(score==1)
-        return 1;
+        return score;
     else if(score==-1)
-        return -1;
+        return score;
     else if(score==0)
-        return 0;
+        return score;
+    //recursive cases: if isAI, make AI move, if !isAI, make human move
     else if(isAI){
         for(int i=0;i<9;i++){
             if(b.isLegal(i)){
@@ -60,12 +63,11 @@ int moveScore(Board b, int score_count, bool isAI, int depth){
 
 Move findBestMove(Board b){
     Move m1;
-    bool isAI = true;
     m1.score = -1000;
     for(int i=0;i<9;i++){
         if(b.isLegal(i)){
             b.changeSqr(i+1,b.getMinimaxTurn());
-            int tempscore = moveScore(b, 0, !isAI, 0);
+            int tempscore = moveScore(b, 0, false, 0);
             if(tempscore>m1.score){
                 m1.score = tempscore;
                 m1.index_best = i;
@@ -91,13 +93,16 @@ int main(){
         b2.setAI('X');
     }
 
-    b2.changeSqr(1,'X');
+    /*b2.changeSqr(1,'X');
     b2.changeSqr(2,'X');
     b2.changeSqr(3,'O');
     b2.changeSqr(4,'O');
     b2.changeSqr(5,'O');
     b2.changeSqr(7,'X');
-    b2.changeSqr(8,'X');
+    b2.changeSqr(8,'X');*/
+    b2.changeSqr(1,'X');
+    b2.changeSqr(5,'O');
+    b2.changeSqr(7,'X');
     b2.displayBoard();
     Move best = findBestMove(b2);
     cout << endl << "The best move in this position for O is " << best.index_best+1 << endl;
