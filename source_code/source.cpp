@@ -63,6 +63,7 @@ int moveScore(Board b, int score_count, bool isAI, int depth){
 Move findBestMove(Board b){
     Move m1;
     m1.score = -1000;
+    //searches through all possible moves, returning moveScore for each, then choosing the largest
     for(int i=0;i<9;i++){
         if(b.isLegal(i)){
             b.changeSqr(i+1,b.getMinimaxTurn());
