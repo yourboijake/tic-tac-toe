@@ -26,7 +26,7 @@ int moveScore(Board b, int score_count, bool isAI, int depth){
     int score = b.evalPosition(b.getMinimaxTurn());
     //base cases: win, loss, cat game
     if(depth>10000)
-        return 0-(depth/2);
+        return 0-(depth/2); //depth/2 is included so that the AI prefers faster wins (the value of a win is discounted by how far away it is)
     else if(score==1)
         return score-(depth/2);
     else if(score==-1)
